@@ -3,10 +3,9 @@ package com.example.akedemyTodo.controller;
 import com.example.akedemyTodo.entity.Priority;
 import com.example.akedemyTodo.repo.PriorityRepository;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping ("/priority")
 public class PriorityController {
 
-    private PriorityRepository priorityRepository;
+    private final PriorityRepository priorityRepository;
 
 
     public PriorityController(PriorityRepository priorityRepository) {
@@ -32,6 +31,24 @@ public class PriorityController {
         return list;
 
     }
+    @PostMapping("/add")
+    public ResponseEntity<Priority> add(@RequestBody Priority priority){
+
+        // проверка на обязательные параметры
+        if (priority.getId() != null && priority.getId() != 0) {
+            // id создается автоматически в БД (autoincrement), поэтому его передавать не нужно, иначе может быть конфликт уникальности значения
+            return new ResponseEntity("redundant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        // если передали пустое значение title
+        if (priority.getTitle() == null || priority.getTitle().trim().length() == 0) {
+            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+
+        return ResponseEntity.ok(priorityRepository.save(priority));
+    }
+
 
 
 }
