@@ -1,5 +1,6 @@
 package com.example.akedemyTodo.controller;
 
+import com.example.akedemyTodo.entity.Category;
 import com.example.akedemyTodo.entity.Priority;
 import com.example.akedemyTodo.repo.PriorityRepository;
 import org.springframework.context.annotation.ComponentScan;
@@ -7,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.EmptyStackException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
@@ -22,13 +25,10 @@ public class PriorityController {
     }
 
 
-    @GetMapping("/test")
-    public List<Priority> test() {
+    @GetMapping("/all")
+    public List<Priority> findAll() {
 
-        List<Priority> list = priorityRepository.findAll();
-
-
-        return list;
+        return  priorityRepository.findAllByOrderByIdAsc();
 
     }
     @PostMapping("/add")
@@ -48,7 +48,32 @@ public class PriorityController {
 
         return ResponseEntity.ok(priorityRepository.save(priority));
     }
+    @GetMapping("/id/{id}")
+    public  ResponseEntity<Priority> findById(@PathVariable Long id){
+        Priority priority = null;
 
+        try{
+            priority = priorityRepository.findById(id).get();
+
+        }catch (NoSuchElementException e){
+            e.printStackTrace();
+            return  new ResponseEntity("id=" + id + "not found",HttpStatus.NOT_ACCEPTABLE);
+        }
+        return ResponseEntity.ok(priority);
+    }
+
+
+    @DeleteMapping("/delete/id")
+    public  ResponseEntity delete(@PathVariable Long id){
+        try {
+            priorityRepository.deleteById(id);
+
+        }catch (EmptyStackException e){
+            e.printStackTrace();
+            return new ResponseEntity("id=" +id+"not found", HttpStatus.NOT_ACCEPTABLE);
+        }
+        return  new ResponseEntity(HttpStatus.OK);
+    }
 
 
 }

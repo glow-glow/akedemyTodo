@@ -1,6 +1,7 @@
 package com.example.akedemyTodo.controller;
 
 import com.example.akedemyTodo.entity.Category;
+import com.example.akedemyTodo.entity.Priority;
 import com.example.akedemyTodo.repo.CategoryRepository;
 
 import org.springframework.context.annotation.ComponentScan;
@@ -8,7 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.EmptyStackException;
 import java.util.List;
+import java.util.NoSuchElementException;
+
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping ("/category")
@@ -22,13 +26,10 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/test")
-    public List<Category> test() {
+    @GetMapping("/all")
+    public List<Category> findAll() {
 
-        List<Category> list = categoryRepository.findAll();
-
-
-        return list ;
+        return  categoryRepository.findAllByOrderByTitleAsc();
 
     }
     @PostMapping("/add")
@@ -60,6 +61,29 @@ public class CategoryController {
         return ResponseEntity.ok(categoryRepository.save(category));
 
     }
+    @GetMapping("/id/{id}")
+    public  ResponseEntity<Category> findById(@PathVariable Long id) {
+        Category category = null;
 
+        try {
+            category = categoryRepository.findById(id).get();
+
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+            return new ResponseEntity("id=" + id + "not found", HttpStatus.NOT_ACCEPTABLE);
+        }
+        return ResponseEntity.ok(category);
+    }
+    @DeleteMapping("/delete/id")
+    public  ResponseEntity delete(@PathVariable Long id){
+        try {
+            categoryRepository.deleteById(id);
+
+        }catch (EmptyStackException e){
+            e.printStackTrace();
+            return new ResponseEntity("id=" +id+"not found", HttpStatus.NOT_ACCEPTABLE);
+        }
+        return  new ResponseEntity(HttpStatus.OK);
+    }
 
 }
