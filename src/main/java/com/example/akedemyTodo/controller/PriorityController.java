@@ -3,6 +3,8 @@ package com.example.akedemyTodo.controller;
 import com.example.akedemyTodo.entity.Category;
 import com.example.akedemyTodo.entity.Priority;
 import com.example.akedemyTodo.repo.PriorityRepository;
+import com.example.akedemyTodo.search.CategorySearchValues;
+import com.example.akedemyTodo.search.PrioritySearchValues;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +75,12 @@ public class PriorityController {
             return new ResponseEntity("id=" +id+"not found", HttpStatus.NOT_ACCEPTABLE);
         }
         return  new ResponseEntity(HttpStatus.OK);
+    }
+    @PostMapping("/search")
+    public ResponseEntity<List<Priority>> search(@RequestBody PrioritySearchValues prioritySearchValues){
+
+        //если вместо текста пусто вернутся все категории
+        return ResponseEntity.ok(priorityRepository.findByTitle(prioritySearchValues.getText()));
     }
 
 
