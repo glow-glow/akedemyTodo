@@ -2,7 +2,11 @@ package com.example.akedemyTodo.controller;
 
 import com.example.akedemyTodo.entity.Task;
 import com.example.akedemyTodo.repo.TaskRepository;
+import com.example.akedemyTodo.search.TaskSearchValues;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,14 +61,15 @@ public class TaskController {
         return new ResponseEntity(HttpStatus.OK);
 
     }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
 
         try {
             taskRepository.deleteById(id);
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
-            return new ResponseEntity("id="+id+" not found", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
         }
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -77,13 +82,51 @@ public class TaskController {
 
         // можно обойтись и без try-catch, тогда будет возвращаться полная ошибка (stacktrace)
         // здесь показан пример, как можно обрабатывать исключение и отправлять свой текст/статус
-        try{
+        try {
             task = taskRepository.findById(id).get();
-        }catch (NoSuchElementException e){ // если объект не будет найден
+        } catch (NoSuchElementException e) { // если объект не будет найден
             e.printStackTrace();
-            return new ResponseEntity("id="+id+" not found", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
         }
-        return  ResponseEntity.ok(task);
+        return ResponseEntity.ok(task);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<Task>> search(@RequestBody TaskSearchValues taskSearchValues) {
+
+
+        // исключить NullPointerException
+        String text = taskSearchValues.getTitle() != null ? taskSearchValues.getTitle() : null;
+
+        // конвертируем Boolean в Integer
+        Integer completed = taskSearchValues.getCompleted() != null ? taskSearchValues.getCompleted() : null;
+
+        Long priorityId = taskSearchValues.getPriorityId() != null ? taskSearchValues.getPriorityId() : null;
+        Long categoryId = taskSearchValues.getCategoryId() != null ? taskSearchValues.getCategoryId() : null;
+
+
+        String sortColumn = taskSearchValues.getSortColumn() != null ? taskSearchValues.getSortColumn() : null;
+        String sortDirection= taskSearchValues.getSortDirection() != null ? taskSearchValues.getSortDirection() : null;
+
+
+        Integer pageNumber = taskSearchValues.getPageNumber() != null ? taskSearchValues.getPageNumber() : null;
+        Integer pageSize = taskSearchValues.getPageSize() != null ? taskSearchValues.getPageSize() : null;
+
+
+        Sort.Direction direction =sortDirection == null || sortDirection.trim().length()==0 ||equals("asc")? Sort.Direction.ASC : Sort.Direction.DESC;
+
+
+        //подставляем все значения
+        //объект сортировки
+        Sort sort = Sort.by(direction,sortColumn);
+
+        // объект построничности
+        PageRequest pageRequest = PageRequest.of(pageNumber,pageSize);
+        //результат запроса
+        Page result = taskRepository.findByParams(text, completed, priorityId, categoryId, pageRequest);
+        // результат запроса
+        return ResponseEntity.ok(result);
+
     }
 
 
