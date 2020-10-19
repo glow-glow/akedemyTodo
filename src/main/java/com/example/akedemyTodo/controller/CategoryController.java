@@ -1,7 +1,6 @@
 package com.example.akedemyTodo.controller;
 
 import com.example.akedemyTodo.entity.Category;
-import com.example.akedemyTodo.repo.CategoryRepository;
 
 import com.example.akedemyTodo.search.CategorySearchValues;
 import com.example.akedemyTodo.service.CategoryService;
@@ -11,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.NoSuchElementException;
 

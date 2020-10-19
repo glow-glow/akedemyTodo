@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+
 public class Category {
     private Long id;
     private String title;

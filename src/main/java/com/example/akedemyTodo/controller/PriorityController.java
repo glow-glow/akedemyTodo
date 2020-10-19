@@ -1,9 +1,6 @@
 package com.example.akedemyTodo.controller;
 
-import com.example.akedemyTodo.entity.Category;
 import com.example.akedemyTodo.entity.Priority;
-import com.example.akedemyTodo.repo.PriorityRepository;
-import com.example.akedemyTodo.search.CategorySearchValues;
 import com.example.akedemyTodo.search.PrioritySearchValues;
 import com.example.akedemyTodo.service.PriorityService;
 import org.springframework.context.annotation.ComponentScan;

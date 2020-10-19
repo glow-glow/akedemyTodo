@@ -1,7 +1,7 @@
 package com.example.akedemyTodo.controller;
 
 import com.example.akedemyTodo.entity.Task;
-import com.example.akedemyTodo.repo.TaskRepository;
+
 import com.example.akedemyTodo.search.TaskSearchValues;
 import com.example.akedemyTodo.service.TaskService;
 import org.springframework.dao.EmptyResultDataAccessException;

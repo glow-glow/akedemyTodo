@@ -2,7 +2,6 @@ package com.example.akedemyTodo.controller;
 
 
 import com.example.akedemyTodo.entity.Stat;
-import com.example.akedemyTodo.repo.StatRepository;
 
 import com.example.akedemyTodo.service.StatService;
 import org.springframework.http.ResponseEntity;
