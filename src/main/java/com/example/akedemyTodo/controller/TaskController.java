@@ -3,6 +3,7 @@ package com.example.akedemyTodo.controller;
 import com.example.akedemyTodo.entity.Task;
 import com.example.akedemyTodo.search.TaskSearchValues;
 import com.example.akedemyTodo.service.TaskService;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
+@ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping("/task")
 public class TaskController {
 
