@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+<changeSet id="2" author="lexa">
+    <createTable tableName="stat">
+        <column name="id" type="UUID" defaultOnNull="false"/>
+        <column name="completed_total" type="UUID" defaultOnNull="false"/>
+        <column name="uncompleted_total" type="UUID" defaultOnNull="false"/>
+
+    </createTable>
+    <createTable tableName="category">
+        <column name="id" type="UUID" defaultOnNull="false"/>
+        <column name="title" type="varchar" value="45"/>
+        <column name="completed_count" type="UUID" defaultOnNull="false"/>
+        <column name="uncompleted_count" type="UUID" defaultOnNull="false"/>
+
+    </createTable>
+
+    <createTable tableName="priority">
+        <column name="id" type="UUID" defaultOnNull="false"/>
+        <column name="title" type="varchar"/>
+        <column name="color" type="varchar"/>
+
+    </createTable>
+    <createTable tableName="task">
+        <column name="id" type="UUID" defaultOnNull="false"/>
+        <column name="title" type="varchar"/>
+        <column name="completed" type="int" defaultOnNull="false"/>
+        <column name="date" type="date"/>
+        <column name="priority_id" type="UUID" defaultOnNull="false"/>
+        <column name="category_id" type="UUID" defaultOnNull="false"/>
+
+
+    </createTable>
+
+
+
+</changeSet>
+
+
+</databaseChangeLog>

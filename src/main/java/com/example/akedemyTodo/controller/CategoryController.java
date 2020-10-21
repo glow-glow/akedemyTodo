@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
@@ -39,11 +40,6 @@ public class CategoryController {
 
 
 
-        // проверка на обязательные параметры
-        if (category.getId() != null && category.getId() != 0) {
-            // id создается автоматически в БД (autoincrement), поэтому его передавать не нужно, иначе может быть конфликт уникальности значения
-            return new ResponseEntity("redundant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
-        }
 
         // если передали пустое значение title
         if (category.getTitle() == null || category.getTitle().trim().length() == 0) {
@@ -61,9 +57,6 @@ public class CategoryController {
 
 
 
-        if (category.getId() == null || category.getId() == 0) {
-            return new ResponseEntity("missed param: id", HttpStatus.NOT_ACCEPTABLE);
-        }
 
         if (category.getTitle() == null || category.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
@@ -90,7 +83,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable  Long id) {
 
 
 

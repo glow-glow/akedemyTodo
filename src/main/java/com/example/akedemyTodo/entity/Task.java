@@ -6,14 +6,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.UUID;
 
 
 @Entity
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@Table(name="task")
 public class Task {
-    private Long id;
+    private UUID id;
     private String title;
     private Integer completed;
     private Date date;
@@ -24,7 +26,7 @@ public class Task {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

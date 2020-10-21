@@ -4,23 +4,22 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
+@Table(name="stat")
 public class Stat {
-    private Long id;
+    private UUID id;
     private Long completedTotal;
     private Long uncompletedTotal;
 
     @Id
     @Column(name = "id")
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

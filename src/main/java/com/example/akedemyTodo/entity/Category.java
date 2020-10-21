@@ -5,15 +5,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 
 @Entity
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-
+@Table(name="category")
 public class Category {
-    private Long id;
+    private UUID id;
     private String title;
     private Long completedCount;
     private Long uncompletedCount;
@@ -21,7 +22,7 @@ public class Category {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

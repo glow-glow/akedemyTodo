@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
@@ -40,9 +41,7 @@ public class PriorityController {
     public ResponseEntity<Priority> add(@RequestBody Priority priority){
 
 
-        if (priority.getId() != null && priority.getId() != 0) {
-            return new ResponseEntity("redundant param: id MUST be null", HttpStatus.NOT_ACCEPTABLE);
-        }
+
 
         if (priority.getTitle() == null || priority.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
@@ -62,9 +61,7 @@ public class PriorityController {
 
 
 
-        if (priority.getId() == null || priority.getId() == 0) {
-            return new ResponseEntity("missed param: id", HttpStatus.NOT_ACCEPTABLE);
-        }
+
 
         if (priority.getTitle() == null || priority.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
@@ -101,7 +98,7 @@ public class PriorityController {
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable  Long id) {
 
 
 
