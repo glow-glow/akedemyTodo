@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name="priority")
 public class Priority {
     private UUID id;
-    private String title;
+    private Integer title;
     private String color;
 
     @Id
@@ -28,7 +28,7 @@ public class Priority {
 
     @Basic
     @Column(name = "title")
-    public String getTitle() {
+    public Integer getTitle() {
         return title;
     }
 

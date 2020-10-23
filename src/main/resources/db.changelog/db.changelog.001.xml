@@ -30,7 +30,7 @@
         <column name="title" type="varchar"/>
         <column name="completed" type="int" defaultOnNull="false"/>
         <column name="date" type="date"/>
-        <column name="priority_id" type="UUID" defaultOnNull="false"/>
+        <column name="priority_id" type="" defaultOnNull="false"/>
         <column name="category_id" type="UUID" defaultOnNull="false"/>
 
 

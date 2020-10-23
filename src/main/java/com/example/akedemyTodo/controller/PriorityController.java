@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.UUID;
+
 
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping ("/priority")
 public class PriorityController {
 
-    private PriorityService priorityService;
+    private final PriorityService priorityService;
 
     // автоматическое внедрение экземпляра класса через конструктор
     public PriorityController(PriorityService priorityService) {
@@ -43,7 +43,7 @@ public class PriorityController {
 
 
 
-        if (priority.getTitle() == null || priority.getTitle().trim().length() == 0) {
+        if (priority.getTitle() == null || priority.getTitle() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
 
@@ -63,7 +63,7 @@ public class PriorityController {
 
 
 
-        if (priority.getTitle() == null || priority.getTitle().trim().length() == 0) {
+        if (priority.getTitle() == null || priority.getTitle()== 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
 
