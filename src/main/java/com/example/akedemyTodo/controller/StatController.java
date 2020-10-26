@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+/*
+ * TODO(Шайдуко): статус задачи у нам по сути булев - и соответственно рест тоже не нужен
+ */
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 public class StatController {

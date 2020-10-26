@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+/**
+ * Java-doc !!!
+ */
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping("/task")
@@ -23,61 +26,41 @@ public class TaskController {
 
     private final TaskService taskService;
 
-
-
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
-
     // получение всех данных
     @GetMapping("/all")
     public ResponseEntity<List<Task>> findAll() {
+        return ResponseEntity.ok(taskService.findAll()); // TODO(Шайдуко): Мы не должны отдавать сушности модели!
+        // по хорошему рест о модели вообзе ничего знать не должен!!! мы в том числе и для этого выносим логику в сервисы
+        // для этого есть ДТО (можно поискать в гугле- ДТО для чего нужны)
 
+        // и поврос - мы же всё покаыать не должны по звдвнию!!!
 
-        return ResponseEntity.ok(taskService.findAll());
     }
-
 
     @PostMapping("/add")
     public ResponseEntity<Task> add(@RequestBody Task task) {
-
-
-
-
         if (task.getTitle() == null || task.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
-
         return ResponseEntity.ok(taskService.add(task)); // возвращаем созданный объект со сгенерированным id
-
+        // TODO(Шайдуко): не отдайм сущности модели
     }
-
 
     @PutMapping("/update")
     public ResponseEntity<Task> update(@RequestBody Task task) {
-
-
-
-
         if (task.getTitle() == null || task.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
-
-
         taskService.update(task);
-
         return new ResponseEntity(HttpStatus.OK);
-
     }
-
-
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-
-
-
         try {
             taskService.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
@@ -87,11 +70,8 @@ public class TaskController {
         return new ResponseEntity(HttpStatus.OK); // просто отправляем статус 200 (операция прошла успешно)
     }
 
-
-    @GetMapping("/id/{id}")
+    @GetMapping("/id/{id}") // TODO(Шайдуко): зачем первый ID ?
     public ResponseEntity<Task> findById(@PathVariable Long id) {
-
-
         Task task = null;
 
         try {
@@ -108,9 +88,6 @@ public class TaskController {
     // TaskSearchValues содержит все возможные параметры поиска
     @PostMapping("/search")
     public ResponseEntity<Page<Task>> search(@RequestBody TaskSearchValues taskSearchValues) {
-
-
-
         // исключить NullPointerException
         String text = taskSearchValues.getTitle() != null ? taskSearchValues.getTitle() : null;
 
@@ -146,5 +123,6 @@ public class TaskController {
 
     }
 
+    // TODO(Шайдуко): где отметка о выполнении задачи ?
 
 }

@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.UUID;
 
-
+/**
+ * JAVA-doc
+ */
 @Entity
 @Setter
 @EqualsAndHashCode
@@ -17,11 +19,14 @@ import java.util.UUID;
 public class Task {
     private UUID id;
     private String title;
-    private Integer completed;
+    private Integer completed; // TODO(Шайдуко): тут же булев признак -выполнено или нет
     private Date date;
 
     private Priority priority;
     private Category category;
+
+
+    // TODO(Шайдуко): мы же используем lombok!!! у него есть аннотации @Getter/@Setter
 
     @Id
     @Column(name = "id")

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * java-doc
+ */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 

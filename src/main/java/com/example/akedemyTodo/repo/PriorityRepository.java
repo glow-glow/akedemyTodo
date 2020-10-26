@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * TODO(ШАйдуко): не нужен это репозиторий
+ */
 @Repository
 public interface PriorityRepository extends JpaRepository<Priority, Long> {
 

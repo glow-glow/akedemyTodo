@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-
+/*
+ * TODO(Шайдуко): Мы делаем приоритет через перечисление. соответсвенно этот рест не нужен
+ */
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping ("/priority")

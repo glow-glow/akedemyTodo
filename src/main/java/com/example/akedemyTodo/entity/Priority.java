@@ -13,7 +13,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Table(name="priority")
-public class Priority {
+public class Priority { // TODO(Шайдуко): приоритет-перечисление, сущность не нужна
     private UUID id;
     private Integer title;
     private String color;

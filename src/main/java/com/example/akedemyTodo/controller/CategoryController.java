@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+/**
+ * Java-doc!!!
+ */
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping("/category")
@@ -101,8 +104,11 @@ public class CategoryController {
     public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues){
 
 
+
         return ResponseEntity.ok(categoryService.findByTitle(categorySearchValues.getText()));
     }
 
+
+    // TODO(Шайдуко): не пойму как решен вопрос с пагинацией
 
 }

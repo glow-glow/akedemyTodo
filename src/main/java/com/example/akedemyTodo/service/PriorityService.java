@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * TODO: не нужен!!!
+ */
 @Service
 @Transactional
 public class PriorityService {

@@ -12,7 +12,8 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode
 @Table(name="stat")
-public class Stat {
+public class Stat { // TODO(Шайдуко): статус задачи это по сути булька-флаг выполнено/не выполнено.
+    // не нужно усложнять предметную оболасть
     private UUID id;
     private Long completedTotal;
     private Long uncompletedTotal;

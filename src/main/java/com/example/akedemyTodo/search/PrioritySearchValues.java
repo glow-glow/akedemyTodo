@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * TODO:  не нужен!
+ */
 @Getter
 @Setter
 @NoArgsConstructor
