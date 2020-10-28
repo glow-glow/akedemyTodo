@@ -2,11 +2,12 @@ package com.example.akedemyTodo.service;
 
 import com.example.akedemyTodo.entity.Category;
 import com.example.akedemyTodo.repo.CategoryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -34,8 +35,8 @@ public class CategoryService {
         repository.deleteById(id);
     }
 
-    public List<Category> findByTitle(String text){
-        return repository.findByTitle(text);
+    public Page findByTitle(PageRequest paging ){
+        return repository.findByTitle(paging);
     }
 
     public Category findById(Long id){
@@ -45,6 +46,7 @@ public class CategoryService {
     public List<Category> findAllByOrderByTitleAsc(){
         return repository.findAllByOrderByTitleAsc();
     }
+
 
 
 }

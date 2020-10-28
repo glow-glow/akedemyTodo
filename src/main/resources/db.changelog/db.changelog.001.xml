@@ -5,34 +5,25 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 <changeSet id="2" author="lexa">
-    <createTable tableName="stat">
-        <column name="id" type="UUID" defaultOnNull="false"/>
-        <column name="completed_total" type="serial" defaultOnNull="false"/>
-        <column name="uncompleted_total" type="serial" defaultOnNull="false"/>
 
-    </createTable>
     <createTable tableName="category">
         <column name="id" type="UUID" defaultOnNull="false"/>
         <column name="title" type="varchar" value="45"/>
-        <column name="completed_count" type="serial" defaultOnNull="false"/>
-        <column name="uncompleted_count" type="serial" defaultOnNull="false"/>
+        <column name="completed_count" type="Integer" defaultOnNull="false"/>
+        <column name="uncompleted_count" type="Integer" defaultOnNull="false"/>
 
     </createTable>
 
-    <createTable tableName="priority">
-        <column name="id" type="UUID" defaultOnNull="false"/>
-        <column name="title" type="serial"/>
-        <column name="color" type="varchar"/>
 
-    </createTable>
 
     <createTable tableName="task">
         <column name="id" type="UUID" defaultOnNull="false"/>
         <column name="title" type="varchar"/>
-        <column name="completed" type="serial" defaultOnNull="false"/>
+        <column name="completed" type="Integer" defaultOnNull="false"/>
         <column name="date" type="date"/>
-        <column name="priority_id" type="serial" defaultOnNull="false"/>
-        <column name="category_id" type="serial" defaultOnNull="false"/>
+        <column name="priority" type="Integer" defaultOnNull="false"/>
+        <column name="stat" type="boolean"/>
+        <column name="category_id" type="Integer" defaultOnNull="false"/>
 
 
     </createTable>

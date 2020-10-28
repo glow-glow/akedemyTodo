@@ -14,8 +14,8 @@ import java.util.UUID;
 public class TaskSearchValues {
     private String title;
     private Integer completed;
-    private Long priorityId;
     private Long categoryId;
+    private UUID id;
 
     //построничность
     private Integer pageNumber;
@@ -24,4 +24,5 @@ public class TaskSearchValues {
     //сортировка
     private String sortColumn;
     private String sortDirection;
+    private Boolean stat;
 }

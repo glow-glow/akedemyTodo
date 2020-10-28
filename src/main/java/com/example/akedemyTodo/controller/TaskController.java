@@ -31,11 +31,13 @@ public class TaskController {
 
 
     // получение всех данных
+
     @GetMapping("/all")
-    public ResponseEntity<List<Task>> findAll() {
+    public List<Task> finByAll(@PathVariable UUID id) {
 
 
-        return ResponseEntity.ok(taskService.findAll());
+         return taskService.getAllTodoTaskForId(id);
+         //кажется теперь он просто показывает все задачи вообще а не задачи в категории как это было раньше
     }
 
 
@@ -117,7 +119,6 @@ public class TaskController {
         // конвертируем Boolean в Integer
         Integer completed = taskSearchValues.getCompleted() != null ? taskSearchValues.getCompleted() : null;
 
-        Long priorityId = taskSearchValues.getPriorityId() != null ? taskSearchValues.getPriorityId() : null;
         Long categoryId = taskSearchValues.getCategoryId() != null ? taskSearchValues.getCategoryId() : null;
 
         String sortColumn = taskSearchValues.getSortColumn() != null ? taskSearchValues.getSortColumn() : null;
@@ -125,6 +126,10 @@ public class TaskController {
 
         Integer pageNumber = taskSearchValues.getPageNumber() != null ? taskSearchValues.getPageNumber() : null;
         Integer pageSize = taskSearchValues.getPageSize() != null ? taskSearchValues.getPageSize() : null;
+        Boolean stat  = taskSearchValues.getStat() != null ? taskSearchValues.getStat() : null;
+
+
+        UUID id = taskSearchValues.getId() != null ? taskSearchValues.getId() : null;
 
 
         Sort.Direction direction = sortDirection == null || sortDirection.trim().length() == 0 || sortDirection.trim().equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
@@ -139,11 +144,16 @@ public class TaskController {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
 
         // результат запроса с постраничным выводом
-        Page result = taskService.findByParams(text, completed, priorityId, categoryId, pageRequest);
+        Page result = taskService.findByParams(text, completed,categoryId, pageRequest,id,stat);
 
         // результат запроса
         return ResponseEntity.ok(result);
 
+    }
+
+    @PutMapping("/state/{id}")
+    public ResponseEntity<Task> changeDoneStat(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.changeStat(id));
     }
 
 

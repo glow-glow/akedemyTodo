@@ -1,6 +1,7 @@
 package com.example.akedemyTodo.entity;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -10,25 +11,25 @@ import java.util.UUID;
 
 
 @Entity
+@Table(name = "task")
 @Setter
+@Getter
 @EqualsAndHashCode
 @NoArgsConstructor
-@Table(name="task")
 public class Task {
     private UUID id;
     private String title;
     private Integer completed;
     private Date date;
 
-    private Priority priority;
+    private Boolean stat = false;
+    private Integer priority;
     private Category category;
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public UUID getId() {
-        return id;
-    }
+    public UUID getId() {return id; }
 
 
     @Basic
@@ -51,13 +52,14 @@ public class Task {
         return date;
     }
 
+    @Basic
+    @Column(name = "priority")
+    public Integer getPriority(){return priority;}
 
+    @Basic
+    @Column(name = "stat")
+    public Boolean getStat(){return stat;}
 
-    @ManyToOne
-    @JoinColumn(name = "priority_id", referencedColumnName = "id")
-    public Priority getPriority() {
-        return priority;
-    }
 
 
 
@@ -65,6 +67,11 @@ public class Task {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     public Category getCategory() {
         return category;
+    }
+
+
+    public boolean isStat() {
+        return stat;
     }
 
 

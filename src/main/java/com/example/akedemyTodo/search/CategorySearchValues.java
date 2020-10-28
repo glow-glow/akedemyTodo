@@ -11,4 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CategorySearchValues {
     private String text;
+    private Integer pageNumber;
+    private Integer pageSize;
+    private String sortColumn;
+    private String sortDirection;
 }

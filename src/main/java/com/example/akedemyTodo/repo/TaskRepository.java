@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -18,14 +19,16 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("SELECT p FROM Task p where " +
             "(:text is null or lower(p.title) like lower(concat('%', :text,'%'))) and" +
             "(:completed is null or p.completed=:completed) and " +
-            "(:priorityId is null or p.priority.id=:priorityId) and " +
-            "(:categoryId is null or p.category.id=:categoryId)"
+            "(:categoryId is null or p.category.id=:categoryId) and" +
+            "(:stat is null or p.stat=:stat)"
     )
     Page<Task> findByParams(@Param("text") String text,
                             @Param("completed") Integer completed,
-                            @Param("priorityId") Long priorityId,
                             @Param("categoryId") Long categoryId,
+                            @Param("stat") Boolean stat,
+                            @Param("id") UUID id,
                             Pageable pageable
     );
 
+    List<Task> findById(UUID listId);
 }

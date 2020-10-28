@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.UUID;
 
 
@@ -16,6 +17,8 @@ import java.util.UUID;
 public class Category {
     private UUID id;
     private String title;
+    private Date date;
+
     private Long completedCount;
     private Long uncompletedCount;
 
@@ -31,6 +34,12 @@ public class Category {
     @Column(name = "title")
     public String getTitle() {
         return title;
+    }
+
+    @Basic
+    @Column(name = "date")
+    public Date getDate() {
+        return date;
     }
 
 

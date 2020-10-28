@@ -1,9 +1,10 @@
 package com.example.akedemyTodo.repo;
 
 import com.example.akedemyTodo.entity.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +13,10 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     // if title == null or =='' then all elements
-    @Query("SELECT c FROM Category c where " +
-            "(:title is null or :title='' or lower(c.title) like lower(concat('%', :title,'%')))  " +
-            "order by c.title asc")
-    List<Category> findByTitle(@Param("title") String title);
+
+
+    Page<Category> findByTitle(
+                               Pageable pageable
+    );
     List<Category> findAllByOrderByTitleAsc();// сортировка по названию
 }
