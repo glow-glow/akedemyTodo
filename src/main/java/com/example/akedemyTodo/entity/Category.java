@@ -8,7 +8,11 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.UUID;
 
-
+/**
+ * сущность категорий
+ * определяет данные, передающиеся в JSON
+ *автор алкесей
+ */
 @Entity
 @Setter
 @EqualsAndHashCode

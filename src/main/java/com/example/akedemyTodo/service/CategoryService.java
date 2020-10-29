@@ -1,7 +1,9 @@
 package com.example.akedemyTodo.service;
 
 import com.example.akedemyTodo.entity.Category;
+import com.example.akedemyTodo.mappers.CategoryMapper;
 import com.example.akedemyTodo.repo.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -9,14 +11,18 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * слой сервисов доя категорий
+ */
+@RequiredArgsConstructor
+
 @Service
 @Transactional
-public class CategoryService {
-    private final CategoryRepository repository; // сервис имеет право обращаьтся к репозиторию (БД)
 
-    public CategoryService(CategoryRepository repository) {
-        this.repository = repository;
-    }
+public class CategoryService {
+    private final CategoryMapper categoryMapper;
+
+    private final CategoryRepository repository; // сервис имеет право обращаьтся к репозиторию (БД)
 
 
     public List<Category> findAll() {

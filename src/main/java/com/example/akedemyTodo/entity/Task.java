@@ -8,7 +8,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.UUID;
-
+/**
+ * сущность задач
+ * определяет данные, передающиеся в JSON
+ *автор алкесей
+ */
 
 @Entity
 @Table(name = "task")

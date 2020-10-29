@@ -1,8 +1,11 @@
 package com.example.akedemyTodo.controller;
 
+import com.example.akedemyTodo.DTO.TaskDTO;
 import com.example.akedemyTodo.entity.Task;
+import com.example.akedemyTodo.mappers.TaskMapper;
 import com.example.akedemyTodo.search.TaskSearchValues;
 import com.example.akedemyTodo.service.TaskService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -12,73 +15,75 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
-
+/**
+ * котнроллер который обробатывет запросы  связанные с задачами
+ * автор алексей
+ *
+ */
+@RequiredArgsConstructor
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping("/task")
 public class TaskController {
 
     private final TaskService taskService;
-
-
-
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
+    private final TaskMapper taskMapper;
 
 
     // получение всех данных
+    /**
+     * метод который показывает все задачи в категории
+     *
+     */
 
     @GetMapping("/all")
-    public List<Task> finByAll(@PathVariable UUID id) {
-
-
-         return taskService.getAllTodoTaskForId(id);
-         //кажется теперь он просто показывает все задачи вообще а не задачи в категории как это было раньше
+    public ResponseEntity<List<Task>> findAll() {
+        return ResponseEntity.ok(taskService.findAll());
     }
 
 
+    /**
+     * метод который добавляет задачу
+     *
+     */
     @PostMapping("/add")
-    public ResponseEntity<Task> add(@RequestBody Task task) {
-
-
-
-
-        if (task.getTitle() == null || task.getTitle().trim().length() == 0) {
+    public ResponseEntity<TaskDTO> add(@RequestBody TaskDTO taskDTO) {
+        Task task = taskMapper.toEntity(taskDTO);
+        task= taskService.add(task);
+        taskDTO = taskMapper.toDTO(task);
+        if (taskDTO.getTitle() == null || taskDTO.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(taskService.add(task)); // возвращаем созданный объект со сгенерированным id
+        return new ResponseEntity<>(taskDTO,HttpStatus.CREATED);
+
 
     }
-
+    /**
+     * метод который обнавляет задачу
+     *
+     */
 
     @PutMapping("/update")
-    public ResponseEntity<Task> update(@RequestBody Task task) {
+    public ResponseEntity<TaskDTO> update(@RequestBody TaskDTO taskDTO) {
+        Task task = taskMapper.toEntity(taskDTO);
+        task= taskService.update(task);
+        taskDTO = taskMapper.toDTO(task);
+        return new ResponseEntity<>(taskDTO,HttpStatus.CREATED);
 
-
-
-
-        if (task.getTitle() == null || task.getTitle().trim().length() == 0) {
-            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-
-        taskService.update(task);
-
-        return new ResponseEntity(HttpStatus.OK);
 
     }
 
-
+    /**
+     * метод который удаляет задачу по айди
+     *
+     */
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-
-
 
         try {
             taskService.deleteById(id);
@@ -88,25 +93,24 @@ public class TaskController {
         }
         return new ResponseEntity(HttpStatus.OK); // просто отправляем статус 200 (операция прошла успешно)
     }
-
+    /**
+     * метод который ищет задачу по айди
+     *
+     */
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<Task> findById(@PathVariable Long id) {
+    public ResponseEntity<TaskDTO> findById(@PathVariable Long id) {
 
+        Task task = taskService.findById(id);
+        TaskDTO taskDTO = taskMapper.toDTO(task);
 
-        Task task = null;
+        return ResponseEntity.ok(taskDTO);
 
-        try {
-            task = taskService.findById(id);
-        } catch (NoSuchElementException e) { // если объект не будет найден
-            e.printStackTrace();
-            return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        return ResponseEntity.ok(task);
     }
-
-
+    /**
+     * постраничность номер страницы и размер показываемого на ней выбриает щас + сортировка по всем столбцам
+     *
+     */
     // TaskSearchValues содержит все возможные параметры поиска
     @PostMapping("/search")
     public ResponseEntity<Page<Task>> search(@RequestBody TaskSearchValues taskSearchValues) {
@@ -127,6 +131,8 @@ public class TaskController {
         Integer pageNumber = taskSearchValues.getPageNumber() != null ? taskSearchValues.getPageNumber() : null;
         Integer pageSize = taskSearchValues.getPageSize() != null ? taskSearchValues.getPageSize() : null;
         Boolean stat  = taskSearchValues.getStat() != null ? taskSearchValues.getStat() : null;
+        Date date  = taskSearchValues.getDate() != null ? taskSearchValues.getDate() : null;
+
 
 
         UUID id = taskSearchValues.getId() != null ? taskSearchValues.getId() : null;
@@ -144,16 +150,23 @@ public class TaskController {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sort);
 
         // результат запроса с постраничным выводом
-        Page result = taskService.findByParams(text, completed,categoryId, pageRequest,id,stat);
+
+        Page result = taskService.findByParams(text,date,completed,categoryId,pageRequest,id,stat);
 
         // результат запроса
         return ResponseEntity.ok(result);
 
     }
-
+    /**
+     * метод который обнавляет статус задачи
+     *
+     */
     @PutMapping("/state/{id}")
-    public ResponseEntity<Task> changeDoneStat(@PathVariable Long id) {
-        return ResponseEntity.ok(taskService.changeStat(id));
+    public ResponseEntity<TaskDTO> changeDoneStat(@PathVariable Long id) {
+
+        Task task = taskService.changeStat(id);
+        TaskDTO taskDTO = taskMapper.toDTO(task);
+        return ResponseEntity.ok(taskDTO);
     }
 
 

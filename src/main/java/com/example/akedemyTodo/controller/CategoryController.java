@@ -1,8 +1,11 @@
 package com.example.akedemyTodo.controller;
 
+import com.example.akedemyTodo.DTO.CategoryDTO;
 import com.example.akedemyTodo.entity.Category;
+import com.example.akedemyTodo.mappers.CategoryMapper;
 import com.example.akedemyTodo.search.CategorySearchValues;
 import com.example.akedemyTodo.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -11,24 +14,29 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+/**
+ * котнроллер который обробатывет запросы  связанные с категорией
+ * автор алексей
+ *
+ */
 
 import java.util.List;
-import java.util.NoSuchElementException;
-
+@RequiredArgsConstructor
 @RestController
 @ComponentScan(basePackages = {"com.example.*"})
 @RequestMapping("/category")
 public class CategoryController {
 
-
+    /**
+     * Автозаполнение bean-a
+     */
     private final CategoryService categoryService;
+    private  final CategoryMapper categoryMapper;
 
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
-
-
+    /**
+     * метод который показывает все категории
+     *
+     */
     @GetMapping("/all")
     public List<Category> findAll() {
 
@@ -36,52 +44,60 @@ public class CategoryController {
         return categoryService.findAllByOrderByTitleAsc();
 
     }
+    /**
+     * метод который добавляет категориюю
+     */
 
     @PostMapping("/add")
-    public ResponseEntity<Category> add(@RequestBody Category category) {
+    public ResponseEntity<CategoryDTO> add(@RequestBody CategoryDTO categoryDTO) {
+        Category category =categoryMapper.toEntity(categoryDTO);
+        category= categoryService.add(category);
+        categoryDTO = categoryMapper.toDTO(category);
 
 
         // если передали пустое значение title
-        if (category.getTitle() == null || category.getTitle().trim().length() == 0) {
+        if (categoryDTO.getTitle() == null || categoryDTO.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
         }
+        return new ResponseEntity<>(categoryDTO,HttpStatus.CREATED);
 
 
-        return ResponseEntity.ok(categoryService.add(category));
     }
-
+    /**
+     * метод который обнавляет категориюю
+     */
 
     @PutMapping("/update")
-    public ResponseEntity update(@RequestBody Category category) {
+    public ResponseEntity update(@RequestBody CategoryDTO categoryDTO) {
+            Category category =categoryMapper.toEntity(categoryDTO);
+            category= categoryService.update(category);
+            categoryDTO = categoryMapper.toDTO(category);
 
 
-        if (category.getTitle() == null || category.getTitle().trim().length() == 0) {
-            return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
+            // если передали пустое значение title
+            if (categoryDTO.getTitle() == null || categoryDTO.getTitle().trim().length() == 0) {
+                return new ResponseEntity("missed param: title", HttpStatus.NOT_ACCEPTABLE);
+            }
+            return new ResponseEntity<>(categoryDTO,HttpStatus.CREATED);
+
+
         }
-
-        categoryService.update(category);
-
-        return new ResponseEntity(HttpStatus.OK); // просто отправляем статус 200 (операция прошла успешно)
-    }
-
+    /**
+     * метод который ищет категориюю по айди
+     */
     @GetMapping("/id/{id}")
-    public ResponseEntity<Category> findById(@PathVariable Long id) {
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
+        Category category = categoryService.findById(id);
+        CategoryDTO categoryDTO =categoryMapper.toDTO(category);
 
-        Category category = null;
-
-        try {
-            category = categoryService.findById(id);
-        } catch (NoSuchElementException e) { // если объект не будет найден
-            e.printStackTrace();
-            return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
-        }
-
-        return ResponseEntity.ok(category);
+        return ResponseEntity.ok(categoryDTO);
     }
+    /**
+     * метод который удаляет категорию по айди
+     */
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-
 
         try {
             categoryService.deleteById(id);
@@ -90,9 +106,11 @@ public class CategoryController {
             return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return new ResponseEntity(HttpStatus.OK); // просто отправляем статус 200 (операция прошла успешно)
+        return new ResponseEntity(HttpStatus.OK);
     }
-
+    /**
+     * постраничность с сортировкой размер страницы можно выбрать любой + сортировка
+     */
     //поиск по любым пораметрам CategorySearchValues
     @PostMapping("/search")
     public ResponseEntity<Page<Category>> search(@RequestBody CategorySearchValues categorySearchValues) {

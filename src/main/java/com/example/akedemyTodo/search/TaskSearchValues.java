@@ -5,7 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.UUID;
+/**
+ * список что нужна получать для постраничности в тасках
+ */
 
 @Getter
 @Setter
@@ -16,7 +20,7 @@ public class TaskSearchValues {
     private Integer completed;
     private Long categoryId;
     private UUID id;
-
+    private Date date;
     //построничность
     private Integer pageNumber;
     private Integer pageSize;

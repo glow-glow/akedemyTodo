@@ -8,10 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+
+import java.util.Date;
 import java.util.UUID;
 
-
+/**
+ * Интерфейс класса Task
+ */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
@@ -22,7 +25,12 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             "(:categoryId is null or p.category.id=:categoryId) and" +
             "(:stat is null or p.stat=:stat)"
     )
+    /**
+     * сортировка по всем столбцам постраничность
+     */
+
     Page<Task> findByParams(@Param("text") String text,
+                            @Param("date") Date date,
                             @Param("completed") Integer completed,
                             @Param("categoryId") Long categoryId,
                             @Param("stat") Boolean stat,
@@ -30,5 +38,4 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
                             Pageable pageable
     );
 
-    List<Task> findById(UUID listId);
 }

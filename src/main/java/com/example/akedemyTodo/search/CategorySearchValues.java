@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * список что нужна получать для постраничности в категории
+ */
 @Getter
 @Setter
 @NoArgsConstructor
