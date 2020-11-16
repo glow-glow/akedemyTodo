@@ -34,7 +34,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
                             @Param("completed") Integer completed,
                             @Param("categoryId") Long categoryId,
                             @Param("stat") Boolean stat,
-                            @Param("id") UUID id,
+                            @Param("id") Long id,
                             Pageable pageable
     );
 

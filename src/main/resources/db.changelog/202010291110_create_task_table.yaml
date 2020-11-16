@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - logicalFilePath: db.changelog/db.changelog-master.yaml
+  - changeSet:
+      id: 202010291110_create_task_table
+      author: lexa
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: Long
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: create_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: change_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: priority
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: list_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_task_list
+                    referencedTableName: list
+                    referencedColumnNames: id
+              - column:
+                  name: is_complete
+                  type: boolean
+                  constraints:
+                    nullable: false

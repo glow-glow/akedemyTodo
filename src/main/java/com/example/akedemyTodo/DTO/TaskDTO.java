@@ -18,7 +18,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 public class TaskDTO  {
-    private UUID id;
+    private Long id;
     private String title;
     private Integer completed;
     private Date date;
@@ -26,14 +26,5 @@ public class TaskDTO  {
     private Boolean stat = false;
     private Integer priority;
     private Category category;
-    public TaskDTO(UUID id, String title, Integer completed, Date date, Boolean stat, Integer priority, Category category) {
-        this.id = id;
-        this.title = title;
-        this.completed = completed;
-        this.date = date;
-        this.stat = stat;
-        this.priority = priority;
-        this.category = category;
 
-    }
 }

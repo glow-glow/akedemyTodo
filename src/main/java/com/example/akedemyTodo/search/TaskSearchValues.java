@@ -19,7 +19,7 @@ public class TaskSearchValues {
     private String title;
     private Integer completed;
     private Long categoryId;
-    private UUID id;
+    private Long id;
     private Date date;
     //построничность
     private Integer pageNumber;

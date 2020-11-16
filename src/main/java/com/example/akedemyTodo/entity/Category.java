@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name="category")
 public class Category {
-    private UUID id;
+    private Long id;
     private String title;
     private Date date;
 
@@ -29,7 +29,7 @@ public class Category {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

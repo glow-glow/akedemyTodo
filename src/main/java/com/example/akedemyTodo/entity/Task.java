@@ -21,7 +21,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class Task {
-    private UUID id;
+    private Long id;
     private String title;
     private Integer completed;
     private Date date;
@@ -33,7 +33,7 @@ public class Task {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public UUID getId() {return id; }
+    public Long getId() {return id; }
 
 
     @Basic

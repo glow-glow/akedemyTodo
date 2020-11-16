@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 /**
  * котнроллер который обробатывет запросы  связанные с задачами
  * автор алексей
@@ -41,6 +40,8 @@ public class TaskController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Task>> findAll() {
+
+
         return ResponseEntity.ok(taskService.findAll());
     }
 
@@ -135,7 +136,7 @@ public class TaskController {
 
 
 
-        UUID id = taskSearchValues.getId() != null ? taskSearchValues.getId() : null;
+        Long id = taskSearchValues.getId() != null ? taskSearchValues.getId() : null;
 
 
         Sort.Direction direction = sortDirection == null || sortDirection.trim().length() == 0 || sortDirection.trim().equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;

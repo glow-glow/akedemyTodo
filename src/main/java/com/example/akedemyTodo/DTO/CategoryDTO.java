@@ -18,18 +18,12 @@ import java.util.UUID;
  */
 public class CategoryDTO  {
 
-    private UUID id;
+    private Long id;
     private String title;
     private Date date;
 
     private Long completedCount;
     private Long uncompletedCount;
 
-    public CategoryDTO(UUID id, String title, Date date, Long completedCount, Long uncompletedCount) {
-        this.id = id;
-        this.title = title;
-        this.date = date;
-        this.completedCount = completedCount;
-        this.uncompletedCount = uncompletedCount;
-    }
+
 }
